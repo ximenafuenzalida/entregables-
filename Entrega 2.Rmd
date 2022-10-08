@@ -1,0 +1,66 @@
+---
+title: "Entrega 2"
+output: html_document
+date: '2022-10-07'
+---
+Ximena Fuenzalida 
+
+Variable 1: Libertad de Expresiòn (expr_data)
+Base de datos:  Our World in  Data
+justificaciòn: Esta variable mide los indices de libertad, de expresiòn en medios de prensa y en relaciòn a procesos electorales y gobiernos. 
+Variable 2: Libertad electoral (elct_data) 
+Base de datos: Vdem 
+Justificaciòn: la libertad electoral se refiere a la capacidad de ejercer un voto, asi+ì como de postular en porcesos electorales. Este indice en relaciòn a la democracia sirve opara analizar si la libertad en el aspecto electoral influye en los indices democráticos
+Variable 3: Alfabetización (Lit_data)
+Base de datos: Vdem 
+Justificaciòn: La alfabetización como variable sirve para medir el indice de democracia  de los paises con menores tazas de alfabetizacion. 
+
+
+
+
+```{r}
+library(rio)
+dem_data = read.csv("dem.csv")
+exp_data = read.csv("expression .csv")
+elct_data = read.csv("elections.csv")
+lit_data= read.csv("literacy.csv")
+```
+
+
+```{r}
+colnames(dem_data) <- c("Country", "dem_data")
+colnames(elct_data) <- c("Country", "elct_data")
+colnames(exp_data) <- c("Country", "exp_data")
+colnames(lit_data) <- c("Country", "lit_data")
+
+```
+
+
+
+```{r}
+df1= merge(x =exp_data, y = elct_data, all.x = TRUE)
+by= "Country"
+```
+
+```{r}
+indice1 = merge(x= df1, y= lit_data, all.x =TRUE)
+by = "Country"
+```
+
+```{r}
+indices = merge(x= dem_data, y= indice1, all.x =TRUE)
+by = "Country"
+```
+
+
+
+
+2. Regresiones
+```{r}
+m1 = lm(dem_data ~ lit_data+exp_data+elct_data , data = indices)
+
+summary(m1)
+```
+
+
+`
